@@ -1,2 +1,1 @@
-# wp-mail-smtp-replyto
-Reply-To for WP Mail SMTP
+# Reply-To for WP Mail SMTP
