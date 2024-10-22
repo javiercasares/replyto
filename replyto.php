@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name: WP_Mail Reply-To
- * Description: Configure your "Reply-To:" for WP Mail with validation and admin settings.
+ * Plugin Name: Reply-To for WP_Mail
+ * Description: Configure your "Reply-To:" for WP_Mail with validation and admin settings.
  * Requires at least: 4.1
  * Requires PHP: 5.6
  * Version: 1.0.0
@@ -10,7 +10,6 @@
  * License: GPL-2.0-or-later
  * License URI: https://spdx.org/licenses/GPL-2.0-or-later.html
  * Text Domain: wp-mail-replyto
- * Domain Path: /languages
  *
  * @package wp-mail-replyto
  *

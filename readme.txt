@@ -1,4 +1,4 @@
-=== WP_Mail Reply-To ===
+=== Reply-To for WP_Mail ===
 Contributors: javiercasares
 Tags: email, reply-to
 Requires at least: 4.1
@@ -13,13 +13,13 @@ Configure the "Reply-To" header for WordPress emails with validation and customi
 
 == Description ==
 
-The WP Mail Reply-To plugin allows you to easily manage the "Reply-To" header for all emails sent from your WordPress site. With this plugin, you can specify a custom email address that recipients will use when replying to your site's emails, ensuring that responses go to the correct inbox.
+The Reply-To for WP_Mail plugin allows you to easily manage the "Reply-To" header for all emails sent from your WordPress site. With this plugin, you can specify a custom email address that recipients will use when replying to your site's emails, ensuring that responses go to the correct inbox.
 
 == Installation ==
 
 = Manual download =
 
-Extract the contents of the ZIP and upload the contents to the `/wp-content/plugins/wp-mail-replyto/` directory. Once uploaded, it will appear in your plugin list.
+Extract the contents of the ZIP and upload the contents to the `/wp-content/plugins/replyto/` directory. Once uploaded, it will appear in your plugin list.
 
 == Compatibility ==
 
