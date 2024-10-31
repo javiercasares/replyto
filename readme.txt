@@ -3,9 +3,9 @@ Contributors: javiercasares
 Tags: email, reply-to
 Requires at least: 4.1
 Tested up to: 6.7
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 5.6
-Version: 1.0.0
+Version: 1.0.1
 License: GPL-2.0-or-later
 License URI: https://spdx.org/licenses/GPL-2.0-or-later.html
 
@@ -27,6 +27,12 @@ Extract the contents of the ZIP and upload the contents to the `/wp-content/plug
 * PHP: 5.6 - 8.4
 
 == Changelog ==
+
+= [1.0.1] - 2024-10-31 =
+
+**Added**
+
+* Translation ready.
 
 = [1.0.0] - 2024-10-22 =
 
