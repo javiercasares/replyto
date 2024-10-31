@@ -4,12 +4,13 @@
  * Description: Configure your "Reply-To:" for WP_Mail with validation and admin settings.
  * Requires at least: 4.1
  * Requires PHP: 5.6
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Javier Casares
  * Author URI: https://www.javiercasares.com/
  * License: GPL-2.0-or-later
  * License URI: https://spdx.org/licenses/GPL-2.0-or-later.html
  * Text Domain: wp-mail-replyto
+ * Domain Path: /languages
  *
  * @package wp-mail-replyto
  *
@@ -30,7 +31,11 @@ function wp_mail_replyto( $args ) {
 
 	// Define the new "Reply-To" if configured.
 	if ( ! empty( $reply_to_email ) ) {
-		$new_reply_to = 'Reply-To: <' . sanitize_email( $reply_to_email ) . '>';
+		$new_reply_to = sprintf(
+			/* translators: %s: email address */
+			__( 'Reply-To: <%s>', 'wp-mail-replyto' ),
+			sanitize_email( $reply_to_email )
+		);
 	}
 
 	// Initialize variables for "From" and existing "Reply-To".
@@ -152,7 +157,7 @@ function wp_mail_replyto_render_settings_page() {
 		<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 		<form action="options.php" method="post">
 			<?php
-			wp_nonce_field();
+			wp_nonce_field( 'update-options' );
 			settings_fields( 'wp_mail_replyto_settings_group' );
 			do_settings_sections( 'wp-mail-replyto' );
 			submit_button( esc_html__( 'Save Settings', 'wp-mail-replyto' ) );
@@ -161,3 +166,11 @@ function wp_mail_replyto_render_settings_page() {
 	</div>
 	<?php
 }
+
+/**
+ * Load plugin textdomain for translations.
+ */
+function wp_mail_replyto_load_textdomain() {
+	load_plugin_textdomain( 'wp-mail-replyto', false, basename( __DIR__ ) . '/languages' );
+}
+add_action( 'plugins_loaded', 'wp_mail_replyto_load_textdomain' );
