@@ -4,15 +4,15 @@
  * Description: Configure your "Reply-To:" for WP_Mail with validation and admin settings.
  * Requires at least: 4.1
  * Requires PHP: 5.6
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Javier Casares
  * Author URI: https://www.javiercasares.com/
  * License: GPL-2.0-or-later
  * License URI: https://spdx.org/licenses/GPL-2.0-or-later.html
- * Text Domain: wp-mail-replyto
+ * Text Domain: replyto
  * Domain Path: /languages
  *
- * @package wp-mail-replyto
+ * @package replyto
  *
  * @version 1.0.0
  */
@@ -33,7 +33,7 @@ function wp_mail_replyto( $args ) {
 	if ( ! empty( $reply_to_email ) ) {
 		$new_reply_to = sprintf(
 			/* translators: %s: email address */
-			__( 'Reply-To: <%s>', 'wp-mail-replyto' ),
+			__( 'Reply-To: <%s>', 'replyto' ),
 			sanitize_email( $reply_to_email )
 		);
 	}
@@ -87,10 +87,10 @@ add_filter( 'wp_mail', 'wp_mail_replyto' );
  */
 function wp_mail_replyto_add_settings_page() {
 	add_options_page(
-		esc_html__( 'WP Mail Reply-To Settings', 'wp-mail-replyto' ),
-		esc_html__( 'Reply-To', 'wp-mail-replyto' ),
+		esc_html__( 'WP Mail Reply-To Settings', 'replyto' ),
+		esc_html__( 'Reply-To', 'replyto' ),
 		'manage_options',
-		'wp-mail-replyto',
+		'replyto',
 		'wp_mail_replyto_render_settings_page'
 	);
 }
@@ -112,16 +112,16 @@ function wp_mail_replyto_register_settings() {
 
 	add_settings_section(
 		'wp_mail_replyto_main_section',
-		esc_html__( 'Reply-To Configuration', 'wp-mail-replyto' ),
+		esc_html__( 'Reply-To Configuration', 'replyto' ),
 		'wp_mail_replyto_main_section_callback',
-		'wp-mail-replyto'
+		'replyto'
 	);
 
 	add_settings_field(
 		'wp_mail_replyto_email_field',
-		esc_html__( 'Reply-To Email Address', 'wp-mail-replyto' ),
+		esc_html__( 'Reply-To Email Address', 'replyto' ),
 		'wp_mail_replyto_email_field_callback',
-		'wp-mail-replyto',
+		'replyto',
 		'wp_mail_replyto_main_section'
 	);
 }
@@ -131,7 +131,7 @@ add_action( 'admin_init', 'wp_mail_replyto_register_settings' );
  * Callback for the settings section description.
  */
 function wp_mail_replyto_main_section_callback() {
-	echo '<p>' . esc_html__( 'Set the email address to be used in the "Reply-To" header of outgoing emails.', 'wp-mail-replyto' ) . '</p>';
+	echo '<p>' . esc_html__( 'Set the email address to be used in the "Reply-To" header of outgoing emails.', 'replyto' ) . '</p>';
 }
 
 /**
@@ -140,7 +140,7 @@ function wp_mail_replyto_main_section_callback() {
 function wp_mail_replyto_email_field_callback() {
 	$email = get_option( 'wp_mail_replyto_email', '' );
 	echo '<input type="email" id="wp_mail_replyto_email" name="wp_mail_replyto_email" value="' . esc_attr( $email ) . '" size="50" />';
-	echo '<p class="description">' . esc_html__( 'Enter the email address to be used as "Reply-To".', 'wp-mail-replyto' ) . '</p>';
+	echo '<p class="description">' . esc_html__( 'Enter the email address to be used as "Reply-To".', 'replyto' ) . '</p>';
 }
 
 /**
@@ -159,8 +159,8 @@ function wp_mail_replyto_render_settings_page() {
 			<?php
 			wp_nonce_field( 'update-options' );
 			settings_fields( 'wp_mail_replyto_settings_group' );
-			do_settings_sections( 'wp-mail-replyto' );
-			submit_button( esc_html__( 'Save Settings', 'wp-mail-replyto' ) );
+			do_settings_sections( 'replyto' );
+			submit_button( esc_html__( 'Save Settings', 'replyto' ) );
 			?>
 		</form>
 	</div>
@@ -171,6 +171,6 @@ function wp_mail_replyto_render_settings_page() {
  * Load plugin textdomain for translations.
  */
 function wp_mail_replyto_load_textdomain() {
-	load_plugin_textdomain( 'wp-mail-replyto', false, basename( __DIR__ ) . '/languages' );
+	load_plugin_textdomain( 'replyto', false, basename( __DIR__ ) . '/languages' );
 }
 add_action( 'plugins_loaded', 'wp_mail_replyto_load_textdomain' );
