@@ -2,10 +2,10 @@
 Contributors: javiercasares
 Tags: email, reply-to
 Requires at least: 4.1
-Tested up to: 6.7
-Stable tag: 1.0.2
+Tested up to: 6.8
+Stable tag: 1.0.3
 Requires PHP: 5.6
-Version: 1.0.2
+Version: 1.0.3
 License: GPL-2.0-or-later
 License URI: https://spdx.org/licenses/GPL-2.0-or-later.html
 
@@ -23,10 +23,28 @@ Extract the contents of the ZIP and upload the contents to the `/wp-content/plug
 
 == Compatibility ==
 
-* WordPress: 4.1 - 6.7
+* WordPress: 4.1 - 6.8
 * PHP: 5.6 - 8.4
 
 == Changelog ==
+
+= [1.0.3] - 2025-04-08 =
+
+**Changed**
+
+* Compatible with WordPress 6.8.
+* Improved functions documentation.
+
+**Compatibility**
+
+* WordPress: 4.1 - 6.8
+* PHP: 5.6 - 8.4
+
+**Tests**
+
+* PHP Coding Standards: 3.12.1
+* WordPress Coding Standards: 3.1.0
+* Plugin Check (PCP): 1.4.0
 
 = [1.0.2] - 2024-11-02 =
 
