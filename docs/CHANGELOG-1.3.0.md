@@ -97,6 +97,10 @@ function wp_mail_replyto_detect_context() {
 - Interfaz con tabs nativa de WordPress (`nav-tab-wrapper`)
 - Un tab por cada contexto
 - Default como primer tab (siempre visible)
+- **Indicadores de estado visual** en cada tab:
+  - 🟢 Verde: Contexto activo con email configurado
+  - 🔴 Rojo: Contexto inactivo o sin email configurado
+- Leyenda explicativa de los indicadores
 - CSS mínimo solo para elementos custom
 - Sin JavaScript (navegación por URL params)
 - 100% consistente con el admin de WordPress
@@ -151,9 +155,9 @@ wp_mail_replyto_contexts = array(
 
 | Archivo | Líneas Antes | Líneas Ahora | Cambio | Descripción |
 |---------|--------------|--------------|--------|-------------|
-| `replyto.php` | 391 | 835 | +444 (+114%) | Funcionalidad completa añadida |
+| `replyto.php` | 391 | 862 | +471 (+120%) | Funcionalidad completa añadida |
 | `uninstall.php` | 40 | 50 | +10 (+25%) | Limpieza de nuevas opciones |
-| `readme.txt` | 118 | 153 | +35 (+30%) | Changelog v1.3.0 |
+| `readme.txt` | 118 | 157 | +39 (+33%) | Changelog v1.3.0 |
 
 ### Nuevas Funciones
 
@@ -604,12 +608,13 @@ retrieve_password( 'admin' );
 
 ### Código Añadido
 
-- **444 líneas** nuevas en replyto.php (+114%)
+- **471 líneas** nuevas en replyto.php (+120%)
 - **6 funciones** nuevas
 - **1 opción** nueva en base de datos (serializada)
 - **6 contextos** disponibles (5 siempre + WooCommerce condicional)
-- **UI con tabs nativos de WordPress**
+- **UI con tabs nativos de WordPress** con indicadores visuales de estado
 - **Detección automática** de WooCommerce para mostrar contexto solo si está activo
+- **Indicadores visuales** (🟢/🔴) en cada tab para ver estado de un vistazo
 
 ### Impacto en Rendimiento
 

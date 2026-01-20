@@ -631,6 +631,15 @@ function wp_mail_replyto_admin_styles( $hook ) {
 		.replyto-tab-content {
 			margin-top: 20px;
 		}
+		.replyto-status-legend {
+			font-size: 12px;
+			color: #646970;
+			margin: 10px 0 0 0;
+			padding: 0;
+		}
+		.replyto-status-legend span {
+			margin-right: 15px;
+		}
 	</style>
 	<?php
 }
@@ -718,15 +727,33 @@ function wp_mail_replyto_render_settings_page() {
 					admin_url( 'options-general.php' )
 				);
 
+				// Determine status indicator.
+				$ctx_email   = isset( $contexts[ $key ]['email'] ) ? $contexts[ $key ]['email'] : '';
+				$ctx_enabled = isset( $contexts[ $key ]['enabled'] ) ? $contexts[ $key ]['enabled'] : false;
+
+				// For Default context: only check if email exists (always enabled).
+				// For other contexts: check if enabled AND email exists.
+				if ( 'default' === $key ) {
+					$status_indicator = ! empty( $ctx_email ) ? '🟢 ' : '🔴 ';
+				} else {
+					$status_indicator = ( $ctx_enabled && ! empty( $ctx_email ) ) ? '🟢 ' : '🔴 ';
+				}
+
 				printf(
-					'<a href="%s" class="nav-tab%s">%s</a>',
+					'<a href="%s" class="nav-tab%s">%s%s</a>',
 					esc_url( $tab_url ),
 					$active_tab === $key ? ' nav-tab-active' : '',
+					esc_html( $status_indicator ),
 					esc_html( $config['label'] )
 				);
 			}
 			?>
 		</h2>
+
+		<p class="replyto-status-legend">
+			<span>🟢 <?php esc_html_e( 'Active with email configured', 'replyto' ); ?></span>
+			<span>🔴 <?php esc_html_e( 'Inactive or no email configured', 'replyto' ); ?></span>
+		</p>
 
 		<form action="options.php" method="post">
 			<?php settings_fields( 'wp_mail_replyto_settings_group' ); ?>

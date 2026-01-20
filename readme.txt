@@ -37,6 +37,8 @@ Extract the contents of the ZIP and upload the contents to the `/wp-content/plug
 * WooCommerce tab only visible when WooCommerce plugin is active.
 * Intelligent context detection using backtrace analysis.
 * Modern tabbed user interface using WordPress native nav-tab-wrapper.
+* Visual status indicators on each tab (green = active with email, red = inactive or no email).
+* Legend explaining status indicators for easy understanding.
 * Automatic migration from v1.2.0 - Your existing settings are preserved in the Default context.
 * Enable/disable toggle for each context (except Default which is always active).
 * Fallback chain: Specific context → Default context → Legacy settings.
