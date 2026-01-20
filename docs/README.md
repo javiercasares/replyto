@@ -6,10 +6,10 @@ Esta carpeta contiene la documentación técnica y de seguridad del plugin Reply
 
 ## 📄 Documentos Disponibles
 
-### [CHANGELOG-1.3.0.md](CHANGELOG-1.3.0.md) 🆕
-**Changelog Técnico - Versión 1.3.0**
+### [CHANGELOG-2.0.0.md](CHANGELOG-2.0.0.md) 🆕
+**Changelog Técnico - Versión 2.0.0**
 
-Documentación completa de la versión 1.3.0:
+Documentación completa de la versión 2.0.0:
 - ✨ Nueva funcionalidad: Context-Based Reply-To Routing
 - 🎯 6 contextos: Default, Authentication, Comments, Users, System, WooCommerce (condicional)
 - 🔍 Detección inteligente por backtrace
@@ -37,13 +37,13 @@ Resumen ejecutivo de la propuesta para v1.3.0:
 - ❓ Decisiones pendientes
 - 🚦 Semáforo de complejidad
 
-**Estado:** ✅ APROBADA - Implementada en v1.3.0
+**Estado:** ✅ APROBADA - Implementada en v2.0.0
 **Documento técnico completo:** [FEATURE-PROPOSAL-MULTIPLE-CONTEXTS.md](FEATURE-PROPOSAL-MULTIPLE-CONTEXTS.md)
 
 ---
 
 ### [FEATURE-PROPOSAL-MULTIPLE-CONTEXTS.md](FEATURE-PROPOSAL-MULTIPLE-CONTEXTS.md) ✅
-**Documentación Técnica - Múltiples Reply-To por Contexto (v1.3.0)**
+**Documentación Técnica - Múltiples Reply-To por Contexto (v2.0.0)**
 
 Análisis técnico completo (24 KB):
 - 📧 6 contextos implementados con hooks de WordPress
@@ -51,7 +51,7 @@ Análisis técnico completo (24 KB):
 - 🔍 Método de detección: Backtrace (implementado)
 - 🎨 Diseño de UI: Tabs modernos (implementado)
 - 💾 Estructura de base de datos (implementada)
-- 🔄 Migración automática desde v1.2.0 (implementada)
+- 🔄 Migración automática desde v1.0.x (implementada)
 - 🧪 Plan de testing (completado)
 - 📊 Casos de uso reales
 
@@ -59,7 +59,7 @@ Análisis técnico completo (24 KB):
 - [FEATURE-PROPOSAL-SUMMARY.md](FEATURE-PROPOSAL-SUMMARY.md) - Resumen ejecutivo
 - [WORDPRESS-EMAIL-HOOKS-REFERENCE.md](WORDPRESS-EMAIL-HOOKS-REFERENCE.md) - Referencia de hooks
 
-**Estado:** ✅ IMPLEMENTADO en v1.3.0
+**Estado:** ✅ IMPLEMENTADO en v2.0.0
 
 ---
 
@@ -142,8 +142,8 @@ Análisis exhaustivo de seguridad del plugin que incluye:
 | Propiedad | Valor |
 |-----------|-------|
 | **Plugin** | Reply-To for WP_Mail |
-| **Versión Actual** | 1.3.0 🆕 |
-| **Versión Anterior** | 1.2.0 |
+| **Versión Actual** | 2.0.0 🆕 |
+| **Versión Anterior** | 1.0.3 |
 | **Estado** | ✅ Producción |
 | **Última Actualización** | 2026-01-20 |
 | **Puntuación Seguridad** | 9.2/10 |
@@ -275,8 +275,8 @@ docs/
 
 ## 🔄 Historial de Versiones
 
-### v1.3.0 (2026-01-20) 🆕
-**Tipo:** Minor Release - Nueva Funcionalidad Mayor
+### v2.0.0 (2026-01-20) 🆕
+**Tipo:** Major Release - Combinación de v1.1.0, v1.2.0 y v1.3.0
 
 - ✨ Context-Based Reply-To Routing
 - 🎯 6 contextos: Default, Authentication, Comments, Users, System, WooCommerce
@@ -284,31 +284,21 @@ docs/
 - 🟢🔴 Indicadores visuales de estado en cada tab (activo/inactivo)
 - 🔍 Detección inteligente por backtrace
 - 🎨 UI moderna con tabs nativos de WordPress
-- 🔄 Migración automática desde v1.2.0
+- 🔄 Migración automática desde v1.0.x
 - ⚡ Rendimiento: -50% queries DB (1 get_option en vez de 2)
-- 📊 +471 líneas de código (+120%)
-- 🔒 Todas las validaciones de seguridad mantenidas
-
-### v1.2.0 (2026-01-20)
-**Tipo:** Minor Release - Nueva Funcionalidad
-
-- ✨ Nueva funcionalidad: Reply-To Name
+- 📊 +474 líneas de código (+121%)
+- ✨ Reply-To Name: Soporte para nombres en Reply-To
 - ➕ Campo opcional para especificar nombre en Reply-To
-- ➕ Validación y sanitización de nombre
 - ➕ Soporte para formato "Name <email@example.com>"
 - 📏 Limitación de longitud (255 caracteres)
 - 🔒 Protección contra inyección de headers en nombre
-- 📝 Documentación actualizada
-
-### v1.1.0 (2026-01-20)
-**Tipo:** Minor Release - Mejoras de Seguridad
-
 - ➕ Validación explícita contra inyección de headers
 - ➕ Validación estricta RFC 5322
 - ➕ Logging de cambios de configuración
 - ➕ Validación DNS de dominios
 - ➕ Script de desinstalación limpia
-- 📈 Puntuación de seguridad: 8.5/10 → 9.2/10
+- 📈 Puntuación de seguridad: 9.2/10
+- 🔒 Todas las validaciones de seguridad implementadas
 
 ### v1.0.3 (2025-04-08)
 - Compatible con WordPress 6.8

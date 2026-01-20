@@ -4,7 +4,7 @@
  * Description: Configure your "Reply-To:" for WP_Mail with validation, admin settings, and context-based routing.
  * Requires at least: 4.1
  * Requires PHP: 5.6
- * Version: 1.3.0
+ * Version: 2.0.0
  * Author: ROBOTSTXT
  * Author URI: https://www.robotstxt.es/
  * License: GPL-3.0-or-later
@@ -14,22 +14,22 @@
  *
  * @package replyto
  *
- * @version 1.3.0
+ * @version 2.0.0
  */
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 /**
- * Performs automatic migration from v1.2.0 to v1.3.0.
+ * Performs automatic migration from v1.0.x to v2.0.0.
  *
  * Migrates old single email/name options to new context-based structure.
  * Runs once on plugin activation or when version changes.
  *
- * @since 1.3.0
+ * @since 2.0.0
  */
-function wp_mail_replyto_migrate_to_v130() {
+function wp_mail_replyto_migrate_to_v200() {
 	// Check if migration has already been performed.
-	$migration_done = get_option( 'wp_mail_replyto_migration_v130', false );
+	$migration_done = get_option( 'wp_mail_replyto_migration_v200', false );
 	if ( $migration_done ) {
 		return;
 	}
@@ -85,10 +85,10 @@ function wp_mail_replyto_migrate_to_v130() {
 	}
 
 	// Mark migration as complete.
-	update_option( 'wp_mail_replyto_migration_v130', true );
+	update_option( 'wp_mail_replyto_migration_v200', true );
 }
 
-add_action( 'admin_init', 'wp_mail_replyto_migrate_to_v130' );
+add_action( 'admin_init', 'wp_mail_replyto_migrate_to_v200' );
 
 /**
  * Detects email context based on WordPress backtrace.

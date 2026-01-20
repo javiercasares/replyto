@@ -1,13 +1,15 @@
-# Changelog - Versión 1.3.0
+# Changelog - Versión 2.0.0
 
 **Fecha de lanzamiento:** 2026-01-20
-**Tipo de versión:** Minor Release (Nueva Funcionalidad Mayor)
+**Tipo de versión:** Major Release (Combinación de v1.1.0, v1.2.0 y v1.3.0)
 
 ---
 
 ## Resumen de Cambios
 
-La versión 1.3.0 introduce la funcionalidad más avanzada del plugin: **Context-Based Reply-To Routing**. Ahora puedes configurar diferentes direcciones Reply-To según el tipo de email que WordPress envía, permitiendo una gestión mucho más granular y profesional de las comunicaciones de tu sitio.
+La versión 2.0.0 introduce la funcionalidad más avanzada del plugin: **Context-Based Reply-To Routing**. Ahora puedes configurar diferentes direcciones Reply-To según el tipo de email que WordPress envía, permitiendo una gestión mucho más granular y profesional de las comunicaciones de tu sitio.
+
+Esta versión también incluye mejoras de seguridad importantes y soporte para nombres en Reply-To que estaban planeadas originalmente para versiones intermedias (v1.1.0, v1.2.0, v1.3.0) pero se lanzan todas juntas en esta versión mayor.
 
 **Ejemplo de uso:**
 ```
@@ -117,13 +119,13 @@ function wp_mail_replyto_detect_context() {
 
 **Funcionamiento:**
 ```php
-Al actualizar de v1.2.0 a v1.3.0:
+Al actualizar de v1.0.x a v2.0.0:
 
-ANTES (v1.2.0):
+ANTES (v1.0.x):
 wp_mail_replyto_email = "support@example.com"
 wp_mail_replyto_name = "Support Team"
 
-DESPUÉS (v1.3.0):
+DESPUÉS (v2.0.0):
 wp_mail_replyto_contexts = array(
     'default' => array(
         'email' => 'support@example.com',
@@ -144,7 +146,7 @@ wp_mail_replyto_contexts = array(
 - ✅ Sin pérdida de datos
 - ✅ Configuración antigua se preserva en Default context
 - ✅ Otros contextos creados pero deshabilitados
-- ✅ Comportamiento idéntico a v1.2.0 hasta que usuario configure nuevos contextos
+- ✅ Comportamiento idéntico a v1.0.x hasta que usuario configure nuevos contextos
 - ✅ Flag de migración para ejecutar solo una vez
 
 ---
@@ -155,18 +157,18 @@ wp_mail_replyto_contexts = array(
 
 | Archivo | Líneas Antes | Líneas Ahora | Cambio | Descripción |
 |---------|--------------|--------------|--------|-------------|
-| `replyto.php` | 391 | 862 | +471 (+120%) | Funcionalidad completa añadida |
+| `replyto.php` | 391 | 865 | +474 (+121%) | Funcionalidad completa añadida |
 | `uninstall.php` | 40 | 50 | +10 (+25%) | Limpieza de nuevas opciones |
-| `readme.txt` | 118 | 157 | +39 (+33%) | Changelog v1.3.0 |
+| `readme.txt` | 118 | 157 | +39 (+33%) | Changelog v2.0.0 |
 
 ### Nuevas Funciones
 
-#### 1. `wp_mail_replyto_migrate_to_v130()`
-**Ubicación:** replyto.php:30-85
-**Propósito:** Migración automática desde v1.2.0
+#### 1. `wp_mail_replyto_migrate_to_v200()`
+**Ubicación:** replyto.php:30-91
+**Propósito:** Migración automática desde v1.0.x
 
 **Características:**
-- Ejecuta solo una vez (flag: wp_mail_replyto_migration_v130)
+- Ejecuta solo una vez (flag: wp_mail_replyto_migration_v200)
 - Lee opciones antiguas
 - Crea estructura nueva con 6 contextos
 - Default recibe valores antiguos, resto vacíos
@@ -257,11 +259,11 @@ WooCommerce:
 
 **Cambios principales:**
 ```php
-// ANTES (v1.2.0):
+// ANTES (v1.0.x):
 $reply_to_email = get_option( 'wp_mail_replyto_email' );
 $reply_to_name = get_option( 'wp_mail_replyto_name' );
 
-// AHORA (v1.3.0):
+// AHORA (v2.0.0):
 $detected_context = wp_mail_replyto_detect_context();
 $contexts = get_option( 'wp_mail_replyto_contexts', array() );
 
@@ -279,7 +281,7 @@ if ( contexto específico habilitado y configurado ) {
 1. Detectar contexto actual
 2. Verificar si contexto está habilitado y tiene email
 3. Si no, usar contexto 'default'
-4. Si default no existe, usar opciones legacy (v1.0-v1.2)
+4. Si default no existe, usar opciones legacy (v1.0.x)
 5. Si no hay nada configurado, no modificar headers
 
 #### `wp_mail_replyto_register_settings()`
@@ -333,7 +335,7 @@ array(
 ```
 
 **Nueva opción de migración:**
-- `wp_mail_replyto_migration_v130` (boolean)
+- `wp_mail_replyto_migration_v200` (boolean)
 
 **Opciones legacy (mantenidas):**
 - `wp_mail_replyto_email` (string)
@@ -345,9 +347,9 @@ array(
 
 ## Seguridad
 
-### Validaciones Mantenidas
+### Validaciones Implementadas
 
-Todas las validaciones de v1.1.0 y v1.2.0 se mantienen:
+Todas las validaciones de seguridad están incluidas en v2.0.0:
 
 1. ✅ Header injection prevention (caracteres peligrosos)
 2. ✅ RFC 5322 strict validation
@@ -393,16 +395,16 @@ Result: ❌ Bloqueado
 
 **Escenarios probados:**
 
-1. **Actualización desde v1.2.0:**
+1. **Actualización desde v1.0.3:**
    - ✅ Email y nombre existentes → migrados a Default context
    - ✅ Funcionamiento idéntico hasta que usuario configure nuevos contextos
    - ✅ Opciones antiguas preservadas
 
-2. **Actualización desde v1.1.0:**
+2. **Actualización desde v1.0.x (anteriores):**
    - ✅ Solo email existente → migrado a Default context sin nombre
    - ✅ Funcionamiento idéntico
 
-3. **Instalación nueva v1.3.0:**
+3. **Instalación nueva v2.0.0:**
    - ✅ Muestra interfaz con tabs vacía
    - ✅ No hay migración necesaria
    - ✅ Default context como primer tab
@@ -410,8 +412,8 @@ Result: ❌ Bloqueado
 ### Actualización Automática
 
 **Proceso:**
-1. Usuario actualiza plugin a v1.3.0
-2. Al cargar cualquier página admin, se ejecuta `wp_mail_replyto_migrate_to_v130()`
+1. Usuario actualiza plugin a v2.0.0
+2. Al cargar cualquier página admin, se ejecuta `wp_mail_replyto_migrate_to_v200()`
 3. Migración se ejecuta (si aplica)
 4. Flag se guarda para no repetir
 5. Usuario ve nueva UI con tabs
@@ -434,7 +436,7 @@ Result: ❌ Bloqueado
 
 ## Interfaz de Usuario
 
-### Antes (v1.2.0)
+### Antes (v1.0.x)
 
 ```
 Reply-To Configuration
@@ -452,7 +454,7 @@ Reply-To Name:
 [Save Settings]
 ```
 
-### Ahora (v1.3.0)
+### Ahora (v2.0.0)
 
 ```
 WP Mail Reply-To Settings
@@ -608,7 +610,7 @@ retrieve_password( 'admin' );
 
 ### Código Añadido
 
-- **471 líneas** nuevas en replyto.php (+120%)
+- **474 líneas** nuevas en replyto.php (+121%)
 - **6 funciones** nuevas
 - **1 opción** nueva en base de datos (serializada)
 - **6 contextos** disponibles (5 siempre + WooCommerce condicional)
@@ -618,12 +620,12 @@ retrieve_password( 'admin' );
 
 ### Impacto en Rendimiento
 
-| Métrica | Antes (v1.2.0) | Ahora (v1.3.0) | Cambio |
+| Métrica | Antes (v1.0.x) | Ahora (v2.0.0) | Cambio |
 |---------|----------------|----------------|--------|
 | Queries DB | 2 get_option | 1 get_option | -50% ✅ |
 | CPU | ~0.01ms | ~0.15ms | +0.14ms |
 | Memoria | ~2KB | ~7KB | +5KB |
-| Tamaño archivo | 12KB | 26KB | +14KB |
+| Tamaño archivo | 12KB | 27KB | +15KB |
 
 **Conclusión:** Impacto mínimo en rendimiento.
 
@@ -639,7 +641,7 @@ retrieve_password( 'admin' );
 
 ### Nueva Instalación
 
-1. Instalar plugin v1.3.0
+1. Instalar plugin v2.0.0
 2. Activar
 3. Ir a Configuración → Reply-To
 4. Ver interfaz con tabs
@@ -647,7 +649,7 @@ retrieve_password( 'admin' );
 6. Opcionalmente configurar otros contextos
 7. Guardar
 
-### Actualización desde v1.2.0
+### Actualización desde v1.0.x
 
 1. WordPress actualiza automáticamente
 2. Al cargar admin, migración se ejecuta
@@ -658,7 +660,7 @@ retrieve_password( 'admin' );
 7. Opcionalmente configurar nuevos contextos
 8. Guardar
 
-**Comportamiento:** Exactamente igual que v1.2.0 hasta que configures nuevos contextos.
+**Comportamiento:** Exactamente igual que v1.0.x hasta que configures nuevos contextos.
 
 ---
 
@@ -666,11 +668,11 @@ retrieve_password( 'admin' );
 
 ### Actualizada
 
-- ✅ `readme.txt` - Changelog v1.3.0
+- ✅ `readme.txt` - Changelog v2.0.0
 - ✅ `replyto.php` - Docblocks completos
 - ✅ `uninstall.php` - Nuevas opciones
 - ✅ Versiones sincronizadas
-- ✅ Este CHANGELOG-1.3.0.md
+- ✅ Este CHANGELOG-2.0.0.md
 
 ### Creada
 
@@ -689,7 +691,7 @@ retrieve_password( 'admin' );
 
 ## Próximos Pasos Sugeridos
 
-### Para v1.4.0 (Futuro)
+### Para futuras versiones
 
 1. **Botón "Test Email" por contexto**
    - Enviar email de prueba desde cada tab
@@ -725,7 +727,7 @@ retrieve_password( 'admin' );
 
 ## Conclusión
 
-La versión 1.3.0 transforma Reply-To for WP_Mail de un plugin simple a una solución profesional de gestión de emails, manteniendo:
+La versión 2.0.0 transforma Reply-To for WP_Mail de un plugin simple a una solución profesional de gestión de emails, manteniendo:
 
 - ✅ Simplicidad de uso (tabs intuitivos)
 - ✅ Compatibilidad hacia atrás 100%
