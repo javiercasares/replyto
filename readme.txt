@@ -3,9 +3,9 @@ Contributors: javiercasares
 Tags: email, reply-to
 Requires at least: 4.1
 Tested up to: 6.8
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 Requires PHP: 5.6
-Version: 1.1.0
+Version: 1.2.0
 License: GPL-2.0-or-later
 License URI: https://spdx.org/licenses/GPL-2.0-or-later.html
 
@@ -27,6 +27,26 @@ Extract the contents of the ZIP and upload the contents to the `/wp-content/plug
 * PHP: 5.6 - 8.4
 
 == Changelog ==
+
+= [1.2.0] - 2026-01-20 =
+
+**Added**
+
+* Reply-To Name field - Now you can specify a name to display with the Reply-To email address (e.g., "Support Team <support@example.com>").
+* Name sanitization with header injection prevention.
+* Optional name field with helpful description and examples.
+* Length validation for name field (255 characters maximum).
+
+**Changed**
+
+* Email header construction now supports both name and email format.
+* Uninstall routine updated to remove both email and name options.
+* Improved admin UI with clearer field descriptions.
+
+**Compatibility**
+
+* WordPress: 4.1 - 6.8
+* PHP: 5.6 - 8.4
 
 = [1.1.0] - 2026-01-20 =
 

@@ -15,12 +15,13 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 /**
- * Delete plugin option from single site or main site.
+ * Delete plugin options from single site or main site.
  */
 delete_option( 'wp_mail_replyto_email' );
+delete_option( 'wp_mail_replyto_name' );
 
 /**
- * For multisite installations, delete the option from all sites.
+ * For multisite installations, delete the options from all sites.
  */
 if ( is_multisite() ) {
 	global $wpdb;
@@ -33,6 +34,7 @@ if ( is_multisite() ) {
 	foreach ( $blog_ids as $blog_id ) {
 		switch_to_blog( $blog_id );
 		delete_option( 'wp_mail_replyto_email' );
+		delete_option( 'wp_mail_replyto_name' );
 		restore_current_blog();
 	}
 }

@@ -4,7 +4,7 @@
  * Description: Configure your "Reply-To:" for WP_Mail with validation and admin settings.
  * Requires at least: 4.1
  * Requires PHP: 5.6
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Javier Casares
  * Author URI: https://www.javiercasares.com/
  * License: GPL-2.0-or-later
@@ -14,7 +14,7 @@
  *
  * @package replyto
  *
- * @version 1.1.0
+ * @version 1.2.0
  */
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
@@ -29,17 +29,28 @@ defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
  * @return array Modified email arguments with adjusted "Reply-To" header.
  */
 function wp_mail_replyto( $args ) {
-	// Retrieve the "Reply-To" email address from plugin settings.
+	// Retrieve the "Reply-To" email address and name from plugin settings.
 	$reply_to_email = get_option( 'wp_mail_replyto_email' );
+	$reply_to_name  = get_option( 'wp_mail_replyto_name', '' );
 
 	// Explicit header injection prevention - defense in depth.
 	if ( ! empty( $reply_to_email ) ) {
 		$reply_to_email = str_replace( array( "\r", "\n", '%0a', '%0d', "\0" ), '', $reply_to_email );
 	}
 
+	if ( ! empty( $reply_to_name ) ) {
+		$reply_to_name = str_replace( array( "\r", "\n", '%0a', '%0d', "\0" ), '', $reply_to_name );
+	}
+
 	// Construct the new "Reply-To" header if a valid email address is set.
 	if ( ! empty( $reply_to_email ) && is_email( $reply_to_email ) ) {
-		$new_reply_to = 'Reply-To: <' . sanitize_email( $reply_to_email ) . '>';
+		if ( ! empty( $reply_to_name ) ) {
+			// Include name in Reply-To header.
+			$new_reply_to = 'Reply-To: ' . sanitize_text_field( $reply_to_name ) . ' <' . sanitize_email( $reply_to_email ) . '>';
+		} else {
+			// Email only.
+			$new_reply_to = 'Reply-To: <' . sanitize_email( $reply_to_email ) . '>';
+		}
 	}
 
 	// Initialize variables to track the "From" and existing "Reply-To" headers.
@@ -237,6 +248,17 @@ function wp_mail_replyto_register_settings() {
 		)
 	);
 
+	// Register the "Reply-To" name setting.
+	register_setting(
+		'wp_mail_replyto_settings_group',
+		'wp_mail_replyto_name',
+		array(
+			'type'              => 'string',
+			'sanitize_callback' => 'wp_mail_replyto_sanitize_name',
+			'default'           => '',
+		)
+	);
+
 	// Add a section to the settings page for organizing fields.
 	add_settings_section(
 		'wp_mail_replyto_main_section',
@@ -250,6 +272,15 @@ function wp_mail_replyto_register_settings() {
 		'wp_mail_replyto_email_field',
 		esc_html__( 'Reply-To Email Address', 'replyto' ),
 		'wp_mail_replyto_email_field_callback',
+		'replyto',
+		'wp_mail_replyto_main_section'
+	);
+
+	// Add the input field for the "Reply-To" name.
+	add_settings_field(
+		'wp_mail_replyto_name_field',
+		esc_html__( 'Reply-To Name', 'replyto' ),
+		'wp_mail_replyto_name_field_callback',
 		'replyto',
 		'wp_mail_replyto_main_section'
 	);
@@ -280,6 +311,54 @@ function wp_mail_replyto_email_field_callback() {
 	// Output the input field HTML.
 	echo '<input type="email" id="wp_mail_replyto_email" name="wp_mail_replyto_email" value="' . esc_attr( $email ) . '" size="50" />';
 	echo '<p class="description">' . esc_html__( 'Enter the email address to be used as "Reply-To".', 'replyto' ) . '</p>';
+}
+
+/**
+ * Renders the input field for the "Reply-To" name.
+ *
+ * This callback is used by the Settings API to display the input field
+ * where administrators can enter an optional name to be used in the "Reply-To" header.
+ *
+ * @since 1.2.0
+ */
+function wp_mail_replyto_name_field_callback() {
+	// Get the current "Reply-To" name from the plugin settings.
+	$name = get_option( 'wp_mail_replyto_name', '' );
+
+	// Output the input field HTML.
+	echo '<input type="text" id="wp_mail_replyto_name" name="wp_mail_replyto_name" value="' . esc_attr( $name ) . '" size="50" />';
+	echo '<p class="description">' . esc_html__( 'Optional: Enter a name to display with the Reply-To email (e.g., "Support Team").', 'replyto' ) . '</p>';
+}
+
+/**
+ * Sanitizes the Reply-To name field.
+ *
+ * Removes dangerous characters and validates the name input.
+ *
+ * @since 1.2.0
+ *
+ * @param string $input The input name to sanitize.
+ * @return string The sanitized name.
+ */
+function wp_mail_replyto_sanitize_name( $input ) {
+	// Sanitize the name using WordPress text field sanitization.
+	$sanitized = sanitize_text_field( $input );
+
+	// Additional security: remove potential header injection characters.
+	$sanitized = str_replace( array( "\r", "\n", '%0a', '%0d', "\0" ), '', $sanitized );
+
+	// Limit length to prevent abuse (255 characters is reasonable for a name).
+	if ( strlen( $sanitized ) > 255 ) {
+		$sanitized = substr( $sanitized, 0, 255 );
+		add_settings_error(
+			'wp_mail_replyto_messages',
+			'wp_mail_replyto_name_too_long',
+			esc_html__( 'Reply-To name was truncated to 255 characters.', 'replyto' ),
+			'warning'
+		);
+	}
+
+	return $sanitized;
 }
 
 /**

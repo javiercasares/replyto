@@ -6,6 +6,21 @@ Esta carpeta contiene la documentación técnica y de seguridad del plugin Reply
 
 ## 📄 Documentos Disponibles
 
+### [CHANGELOG-1.2.0.md](CHANGELOG-1.2.0.md) 🆕
+**Changelog Técnico - Versión 1.2.0**
+
+Documentación completa de la versión 1.2.0:
+- ✨ Nueva funcionalidad: Reply-To Name
+- 📝 Cambios técnicos detallados
+- 🔒 Validaciones de seguridad
+- 📊 Métricas de código
+- ✅ Casos de uso y ejemplos
+
+**Fecha:** 2026-01-20
+**Tipo:** Minor Release (Nueva Funcionalidad)
+
+---
+
 ### [RELEASE-NOTES-1.1.0.md](RELEASE-NOTES-1.1.0.md)
 **Notas de Lanzamiento - Versión 1.1.0**
 
@@ -55,8 +70,8 @@ Análisis exhaustivo de seguridad del plugin que incluye:
 | Propiedad | Valor |
 |-----------|-------|
 | **Plugin** | Reply-To for WP_Mail |
-| **Versión Actual** | 1.1.0 |
-| **Versión Auditada** | 1.0.3 → 1.1.0 |
+| **Versión Actual** | 1.2.0 🆕 |
+| **Versión Anterior** | 1.1.0 |
 | **Estado** | ✅ Producción |
 | **Última Actualización** | 2026-01-20 |
 | **Puntuación Seguridad** | 9.2/10 |
@@ -187,6 +202,17 @@ docs/
 ---
 
 ## 🔄 Historial de Versiones
+
+### v1.2.0 (2026-01-20) 🆕
+**Tipo:** Minor Release - Nueva Funcionalidad
+
+- ✨ Nueva funcionalidad: Reply-To Name
+- ➕ Campo opcional para especificar nombre en Reply-To
+- ➕ Validación y sanitización de nombre
+- ➕ Soporte para formato "Name <email@example.com>"
+- 📏 Limitación de longitud (255 caracteres)
+- 🔒 Protección contra inyección de headers en nombre
+- 📝 Documentación actualizada
 
 ### v1.1.0 (2026-01-20)
 **Tipo:** Minor Release - Mejoras de Seguridad
