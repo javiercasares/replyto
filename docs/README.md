@@ -6,6 +6,58 @@ Esta carpeta contiene la documentación técnica y de seguridad del plugin Reply
 
 ## 📄 Documentos Disponibles
 
+### [FEATURE-PROPOSAL-SUMMARY.md](FEATURE-PROPOSAL-SUMMARY.md) 🔮
+**Resumen - Múltiples Reply-To por Contexto (v1.3.0 propuesta)**
+
+Resumen ejecutivo de la propuesta para v1.3.0:
+- 🎯 Propuesta en 30 segundos
+- 📋 Tabla de contextos propuestos
+- 🔍 Comparativa de métodos de detección
+- 🎨 Diseño de UI
+- ❓ Decisiones pendientes
+- 🚦 Semáforo de complejidad
+
+**Estado:** 📋 Propuesta para revisión
+**Documento técnico completo:** [FEATURE-PROPOSAL-MULTIPLE-CONTEXTS.md](FEATURE-PROPOSAL-MULTIPLE-CONTEXTS.md)
+
+---
+
+### [FEATURE-PROPOSAL-MULTIPLE-CONTEXTS.md](FEATURE-PROPOSAL-MULTIPLE-CONTEXTS.md) 🔮
+**Documentación Técnica - Múltiples Reply-To por Contexto (v1.3.0)**
+
+Análisis técnico completo (24 KB):
+- 📧 6 contextos propuestos con hooks de WordPress
+- 🏗️ Arquitectura técnica detallada
+- 🔍 3 métodos de detección de contexto
+- 🎨 3 opciones de diseño de UI
+- 💾 Estructura de base de datos
+- 🔄 Plan de migración desde v1.2.0
+- 🧪 Plan de testing
+- 📊 Casos de uso reales
+
+**Complementos:**
+- [FEATURE-PROPOSAL-SUMMARY.md](FEATURE-PROPOSAL-SUMMARY.md) - Resumen ejecutivo
+- [WORDPRESS-EMAIL-HOOKS-REFERENCE.md](WORDPRESS-EMAIL-HOOKS-REFERENCE.md) - Referencia de hooks
+
+**Estado:** 📋 Listo para revisión y aprobación
+
+---
+
+### [WORDPRESS-EMAIL-HOOKS-REFERENCE.md](WORDPRESS-EMAIL-HOOKS-REFERENCE.md) 🔮
+**Referencia Técnica - Hooks de Email en WordPress**
+
+Guía de referencia rápida:
+- 📧 Mapeo completo de emails de WordPress Core
+- 🔍 Funciones y hooks por tipo de email
+- 🔌 Detección de WooCommerce, bbPress, BuddyPress
+- 💻 Código de detección por backtrace
+- 🧪 Scripts de testing
+- 📚 Referencias a código fuente de WordPress
+
+**Propósito:** Documentación técnica para implementar detección de contextos
+
+---
+
 ### [CHANGELOG-1.2.0.md](CHANGELOG-1.2.0.md) 🆕
 **Changelog Técnico - Versión 1.2.0**
 
