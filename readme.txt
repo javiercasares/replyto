@@ -34,8 +34,9 @@ Extract the contents of the ZIP and upload the contents to the `/wp-content/plug
 
 * Context-based Reply-To routing - Configure different Reply-To addresses for different types of emails.
 * Six email contexts: Default, Authentication & Security, Comments & Moderation, Users & Registration, System & Updates, WooCommerce.
+* WooCommerce tab only visible when WooCommerce plugin is active.
 * Intelligent context detection using backtrace analysis.
-* Modern tabbed user interface for easy configuration.
+* Modern tabbed user interface using WordPress native nav-tab-wrapper.
 * Automatic migration from v1.2.0 - Your existing settings are preserved in the Default context.
 * Enable/disable toggle for each context (except Default which is always active).
 * Fallback chain: Specific context → Default context → Legacy settings.

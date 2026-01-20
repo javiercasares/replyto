@@ -67,12 +67,16 @@ function wp_mail_replyto_migrate_to_v130() {
 				'name'    => '',
 				'enabled' => false,
 			),
-			'woocommerce'    => array(
+		);
+
+		// Add WooCommerce context only if WooCommerce is active.
+		if ( class_exists( 'WooCommerce' ) ) {
+			$contexts['woocommerce'] = array(
 				'email'   => '',
 				'name'    => '',
 				'enabled' => false,
-			),
-		);
+			);
+		}
 
 		// Save new structure.
 		update_option( 'wp_mail_replyto_contexts', $contexts );
@@ -498,8 +502,12 @@ function wp_mail_replyto_sanitize_contexts( $input ) {
 		'comments'       => __( 'Comments', 'replyto' ),
 		'users'          => __( 'Users', 'replyto' ),
 		'system'         => __( 'System', 'replyto' ),
-		'woocommerce'    => __( 'WooCommerce', 'replyto' ),
 	);
+
+	// Add WooCommerce context only if WooCommerce is active.
+	if ( class_exists( 'WooCommerce' ) ) {
+		$available_contexts['woocommerce'] = __( 'WooCommerce', 'replyto' );
+	}
 
 	foreach ( $available_contexts as $context_key => $context_label ) {
 		// Get input for this context.
@@ -579,7 +587,7 @@ function wp_mail_replyto_sanitize_contexts( $input ) {
 }
 
 /**
- * Enqueues admin styles for the tabs interface.
+ * Enqueues admin styles for the settings page.
  *
  * @since 1.3.0
  *
@@ -591,38 +599,6 @@ function wp_mail_replyto_admin_styles( $hook ) {
 	}
 	?>
 	<style>
-		.replyto-tabs-wrapper {
-			margin-top: 20px;
-		}
-		.replyto-tabs {
-			border-bottom: 1px solid #ccd0d4;
-			margin: 0 0 20px;
-			overflow: hidden;
-		}
-		.replyto-tabs a {
-			float: left;
-			padding: 10px 15px;
-			text-decoration: none;
-			border: 1px solid #ccd0d4;
-			border-bottom: none;
-			margin-right: 5px;
-			background: #f0f0f1;
-			color: #2271b1;
-		}
-		.replyto-tabs a.active {
-			background: #fff;
-			color: #000;
-			font-weight: 600;
-		}
-		.replyto-tab-content {
-			display: none;
-			padding: 20px;
-			background: #fff;
-			border: 1px solid #ccd0d4;
-		}
-		.replyto-tab-content.active {
-			display: block;
-		}
 		.replyto-context-description {
 			margin: 10px 0 20px;
 			padding: 10px;
@@ -652,26 +628,10 @@ function wp_mail_replyto_admin_styles( $hook ) {
 			background: #fff9e5;
 			border-left: 4px solid #dba617;
 		}
+		.replyto-tab-content {
+			margin-top: 20px;
+		}
 	</style>
-	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-			var tabs = document.querySelectorAll('.replyto-tabs a');
-			var contents = document.querySelectorAll('.replyto-tab-content');
-
-			tabs.forEach(function(tab) {
-				tab.addEventListener('click', function(e) {
-					e.preventDefault();
-					var target = this.getAttribute('data-tab');
-
-					tabs.forEach(function(t) { t.classList.remove('active'); });
-					contents.forEach(function(c) { c.classList.remove('active'); });
-
-					this.classList.add('active');
-					document.getElementById(target).classList.add('active');
-				});
-			});
-		});
-	</script>
 	<?php
 }
 
@@ -680,7 +640,7 @@ add_action( 'admin_enqueue_scripts', 'wp_mail_replyto_admin_styles' );
 /**
  * Renders the plugin's settings page with tab-based interface.
  *
- * Displays a modern tabbed interface for configuring Reply-To by context.
+ * Uses WordPress native nav-tab-wrapper for consistent admin UI.
  *
  * @since 1.3.0 Completely rewritten with tabs interface.
  */
@@ -692,6 +652,10 @@ function wp_mail_replyto_render_settings_page() {
 
 	// Get current contexts configuration.
 	$contexts = get_option( 'wp_mail_replyto_contexts', array() );
+
+	// Get active tab from URL, default to 'default'.
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Tab parameter is for display only, not data modification.
+	$active_tab = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'default';
 
 	// Define contexts with descriptions.
 	$context_config = array(
@@ -720,12 +684,21 @@ function wp_mail_replyto_render_settings_page() {
 			'description' => __( 'Reply-To for automatic updates, system alerts, and critical site health notifications.', 'replyto' ),
 			'examples'    => __( 'WordPress core updates, plugin updates, theme updates, recovery mode, fatal error notifications.', 'replyto' ),
 		),
-		'woocommerce'    => array(
+	);
+
+	// Add WooCommerce context only if WooCommerce is active.
+	if ( class_exists( 'WooCommerce' ) ) {
+		$context_config['woocommerce'] = array(
 			'label'       => __( 'WooCommerce', 'replyto' ),
 			'description' => __( 'Reply-To for WooCommerce order notifications, invoices, and customer communications.', 'replyto' ),
 			'examples'    => __( 'Order confirmations, shipping notifications, invoices, customer notes.', 'replyto' ),
-		),
-	);
+		);
+	}
+
+	// Validate active tab exists.
+	if ( ! isset( $context_config[ $active_tab ] ) ) {
+		$active_tab = 'default';
+	}
 
 	// Display settings errors, if any.
 	settings_errors( 'wp_mail_replyto_messages' );
@@ -734,94 +707,123 @@ function wp_mail_replyto_render_settings_page() {
 		<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 		<p><?php esc_html_e( 'Configure different Reply-To addresses based on the type of email being sent. Each context can have its own email address and display name.', 'replyto' ); ?></p>
 
+		<h2 class="nav-tab-wrapper">
+			<?php
+			foreach ( $context_config as $key => $config ) {
+				$tab_url = add_query_arg(
+					array(
+						'page' => 'replyto',
+						'tab'  => $key,
+					),
+					admin_url( 'options-general.php' )
+				);
+
+				printf(
+					'<a href="%s" class="nav-tab%s">%s</a>',
+					esc_url( $tab_url ),
+					$active_tab === $key ? ' nav-tab-active' : '',
+					esc_html( $config['label'] )
+				);
+			}
+			?>
+		</h2>
+
 		<form action="options.php" method="post">
 			<?php settings_fields( 'wp_mail_replyto_settings_group' ); ?>
 
-			<div class="replyto-tabs-wrapper">
-				<div class="replyto-tabs">
-					<?php
-					$first = true;
-					foreach ( $context_config as $key => $config ) {
-						$active_class = $first ? 'active' : '';
-						printf(
-							'<a href="#" data-tab="tab-%s" class="%s">%s</a>',
-							esc_attr( $key ),
-							esc_attr( $active_class ),
-							esc_html( $config['label'] )
-						);
-						$first = false;
-					}
-					?>
+			<div class="replyto-tab-content">
+				<?php
+				$config  = $context_config[ $active_tab ];
+				$email   = isset( $contexts[ $active_tab ]['email'] ) ? $contexts[ $active_tab ]['email'] : '';
+				$name    = isset( $contexts[ $active_tab ]['name'] ) ? $contexts[ $active_tab ]['name'] : '';
+				$enabled = isset( $contexts[ $active_tab ]['enabled'] ) ? $contexts[ $active_tab ]['enabled'] : false;
+				?>
+
+				<div class="replyto-context-description">
+					<p><strong><?php esc_html_e( 'What this context covers:', 'replyto' ); ?></strong><br>
+					<?php echo esc_html( $config['description'] ); ?></p>
+					<p><strong><?php esc_html_e( 'Examples:', 'replyto' ); ?></strong><br>
+					<?php echo esc_html( $config['examples'] ); ?></p>
 				</div>
 
+				<?php if ( 'default' !== $active_tab ) : ?>
+				<div class="replyto-toggle-wrapper">
+					<label>
+						<input type="checkbox"
+							name="wp_mail_replyto_contexts[<?php echo esc_attr( $active_tab ); ?>][enabled]"
+							value="1"
+							<?php checked( $enabled ); ?> />
+						<strong><?php esc_html_e( 'Enable this context', 'replyto' ); ?></strong>
+					</label>
+					<p class="description">
+						<?php esc_html_e( 'When disabled, emails in this context will use the Default Reply-To address.', 'replyto' ); ?>
+					</p>
+				</div>
+				<?php endif; ?>
+
+				<table class="form-table" role="presentation">
+					<tbody>
+						<tr>
+							<th scope="row">
+								<label for="replyto_<?php echo esc_attr( $active_tab ); ?>_email">
+									<?php esc_html_e( 'Reply-To Email Address', 'replyto' ); ?>
+								</label>
+							</th>
+							<td>
+								<input type="email"
+									id="replyto_<?php echo esc_attr( $active_tab ); ?>_email"
+									name="wp_mail_replyto_contexts[<?php echo esc_attr( $active_tab ); ?>][email]"
+									value="<?php echo esc_attr( $email ); ?>"
+									class="regular-text" />
+								<p class="description">
+									<?php esc_html_e( 'Enter the email address where replies should be sent.', 'replyto' ); ?>
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<label for="replyto_<?php echo esc_attr( $active_tab ); ?>_name">
+									<?php esc_html_e( 'Reply-To Display Name (Optional)', 'replyto' ); ?>
+								</label>
+							</th>
+							<td>
+								<input type="text"
+									id="replyto_<?php echo esc_attr( $active_tab ); ?>_name"
+									name="wp_mail_replyto_contexts[<?php echo esc_attr( $active_tab ); ?>][name]"
+									value="<?php echo esc_attr( $name ); ?>"
+									class="regular-text" />
+								<p class="description">
+									<?php esc_html_e( 'Optional: Enter a name to display with the email (e.g., "Support Team").', 'replyto' ); ?>
+								</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<?php if ( 'default' === $active_tab ) : ?>
+				<p class="description">
+					<strong><?php esc_html_e( 'Note:', 'replyto' ); ?></strong>
+					<?php esc_html_e( 'The Default context is always active and acts as a fallback for all emails.', 'replyto' ); ?>
+				</p>
+				<?php endif; ?>
+
 				<?php
-				$first = true;
-				foreach ( $context_config as $key => $config ) {
-					$active_class = $first ? 'active' : '';
-					$email        = isset( $contexts[ $key ]['email'] ) ? $contexts[ $key ]['email'] : '';
-					$name         = isset( $contexts[ $key ]['name'] ) ? $contexts[ $key ]['name'] : '';
-					$enabled      = isset( $contexts[ $key ]['enabled'] ) ? $contexts[ $key ]['enabled'] : false;
+				// Add hidden fields for all other contexts to preserve their values.
+				foreach ( $context_config as $key => $config_item ) {
+					if ( $key === $active_tab ) {
+						continue;
+					}
+
+					$ctx_email   = isset( $contexts[ $key ]['email'] ) ? $contexts[ $key ]['email'] : '';
+					$ctx_name    = isset( $contexts[ $key ]['name'] ) ? $contexts[ $key ]['name'] : '';
+					$ctx_enabled = isset( $contexts[ $key ]['enabled'] ) ? $contexts[ $key ]['enabled'] : false;
 					?>
-					<div id="tab-<?php echo esc_attr( $key ); ?>" class="replyto-tab-content <?php echo esc_attr( $active_class ); ?>">
-						<h2><?php echo esc_html( $config['label'] ); ?></h2>
-
-						<div class="replyto-context-description">
-							<p><strong><?php esc_html_e( 'What this context covers:', 'replyto' ); ?></strong><br>
-							<?php echo esc_html( $config['description'] ); ?></p>
-							<p><strong><?php esc_html_e( 'Examples:', 'replyto' ); ?></strong><br>
-							<?php echo esc_html( $config['examples'] ); ?></p>
-						</div>
-
-						<?php if ( 'default' !== $key ) : ?>
-						<div class="replyto-toggle-wrapper">
-							<label>
-								<input type="checkbox"
-									name="wp_mail_replyto_contexts[<?php echo esc_attr( $key ); ?>][enabled]"
-									value="1"
-									<?php checked( $enabled ); ?> />
-								<strong><?php esc_html_e( 'Enable this context', 'replyto' ); ?></strong>
-							</label>
-							<p class="description">
-								<?php esc_html_e( 'When disabled, emails in this context will use the Default Reply-To address.', 'replyto' ); ?>
-							</p>
-						</div>
-						<?php endif; ?>
-
-						<div class="replyto-field-group">
-							<label for="replyto_<?php echo esc_attr( $key ); ?>_email">
-								<?php esc_html_e( 'Reply-To Email Address', 'replyto' ); ?>
-							</label>
-							<input type="email"
-								id="replyto_<?php echo esc_attr( $key ); ?>_email"
-								name="wp_mail_replyto_contexts[<?php echo esc_attr( $key ); ?>][email]"
-								value="<?php echo esc_attr( $email ); ?>" />
-							<p class="description">
-								<?php esc_html_e( 'Enter the email address where replies should be sent.', 'replyto' ); ?>
-							</p>
-						</div>
-
-						<div class="replyto-field-group">
-							<label for="replyto_<?php echo esc_attr( $key ); ?>_name">
-								<?php esc_html_e( 'Reply-To Display Name (Optional)', 'replyto' ); ?>
-							</label>
-							<input type="text"
-								id="replyto_<?php echo esc_attr( $key ); ?>_name"
-								name="wp_mail_replyto_contexts[<?php echo esc_attr( $key ); ?>][name]"
-								value="<?php echo esc_attr( $name ); ?>" />
-							<p class="description">
-								<?php esc_html_e( 'Optional: Enter a name to display with the email (e.g., "Support Team").', 'replyto' ); ?>
-							</p>
-						</div>
-
-						<?php if ( 'default' === $key ) : ?>
-						<p class="description">
-							<strong><?php esc_html_e( 'Note:', 'replyto' ); ?></strong>
-							<?php esc_html_e( 'The Default context is always active and acts as a fallback for all emails.', 'replyto' ); ?>
-						</p>
-						<?php endif; ?>
-					</div>
+					<input type="hidden" name="wp_mail_replyto_contexts[<?php echo esc_attr( $key ); ?>][email]" value="<?php echo esc_attr( $ctx_email ); ?>" />
+					<input type="hidden" name="wp_mail_replyto_contexts[<?php echo esc_attr( $key ); ?>][name]" value="<?php echo esc_attr( $ctx_name ); ?>" />
+					<?php if ( $ctx_enabled ) : ?>
+					<input type="hidden" name="wp_mail_replyto_contexts[<?php echo esc_attr( $key ); ?>][enabled]" value="1" />
+					<?php endif; ?>
 					<?php
-					$first = false;
 				}
 				?>
 			</div>

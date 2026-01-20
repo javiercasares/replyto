@@ -52,11 +52,12 @@ Todos los demás             → support@example.com (default)
    - Recovery mode emails
    - Fatal error notifications
 
-6. **WooCommerce**
+6. **WooCommerce** (Solo si WooCommerce está activo)
    - Order confirmations
    - Shipping notifications
    - Customer invoices
    - Product notifications
+   - **Nota:** Esta pestaña solo aparece si el plugin WooCommerce está instalado y activo
 
 ### Intelligent Context Detection
 
@@ -93,12 +94,12 @@ function wp_mail_replyto_detect_context() {
 ### Modern Tabbed User Interface
 
 **Características:**
-- Interfaz con tabs moderna y responsive
+- Interfaz con tabs nativa de WordPress (`nav-tab-wrapper`)
 - Un tab por cada contexto
 - Default como primer tab (siempre visible)
-- CSS inline optimizado para WordPress admin
-- JavaScript vanilla (sin dependencias)
-- Funciona sin JavaScript (graceful degradation)
+- CSS mínimo solo para elementos custom
+- Sin JavaScript (navegación por URL params)
+- 100% consistente con el admin de WordPress
 
 **Elementos UI:**
 - Toggle enable/disable por contexto (excepto Default)
@@ -150,7 +151,7 @@ wp_mail_replyto_contexts = array(
 
 | Archivo | Líneas Antes | Líneas Ahora | Cambio | Descripción |
 |---------|--------------|--------------|--------|-------------|
-| `replyto.php` | 391 | 829 | +438 (+112%) | Funcionalidad completa añadida |
+| `replyto.php` | 391 | 835 | +444 (+114%) | Funcionalidad completa añadida |
 | `uninstall.php` | 40 | 50 | +10 (+25%) | Limpieza de nuevas opciones |
 | `readme.txt` | 118 | 153 | +35 (+30%) | Changelog v1.3.0 |
 
@@ -603,11 +604,12 @@ retrieve_password( 'admin' );
 
 ### Código Añadido
 
-- **438 líneas** nuevas en replyto.php (+112%)
+- **444 líneas** nuevas en replyto.php (+114%)
 - **6 funciones** nuevas
 - **1 opción** nueva en base de datos (serializada)
-- **6 contextos** disponibles
-- **Modern tabs UI** completa
+- **6 contextos** disponibles (5 siempre + WooCommerce condicional)
+- **UI con tabs nativos de WordPress**
+- **Detección automática** de WooCommerce para mostrar contexto solo si está activo
 
 ### Impacto en Rendimiento
 

@@ -11,13 +11,14 @@ Esta carpeta contiene la documentación técnica y de seguridad del plugin Reply
 
 Documentación completa de la versión 1.3.0:
 - ✨ Nueva funcionalidad: Context-Based Reply-To Routing
-- 🎯 6 contextos: Default, Authentication, Comments, Users, System, WooCommerce
+- 🎯 6 contextos: Default, Authentication, Comments, Users, System, WooCommerce (condicional)
 - 🔍 Detección inteligente por backtrace
-- 🎨 UI moderna con tabs
+- 🎨 UI moderna con tabs nativos de WordPress
 - 🔄 Migración automática desde v1.2.0
+- 🔌 WooCommerce: Tab solo visible si el plugin está activo
 - 📝 Cambios técnicos detallados
 - 🔒 Validaciones de seguridad mantenidas
-- 📊 Métricas de código (+438 líneas)
+- 📊 Métricas de código (+444 líneas)
 
 **Fecha:** 2026-01-20
 **Tipo:** Minor Release (Nueva Funcionalidad Mayor)
@@ -278,11 +279,12 @@ docs/
 
 - ✨ Context-Based Reply-To Routing
 - 🎯 6 contextos: Default, Authentication, Comments, Users, System, WooCommerce
+- 🔌 Tab WooCommerce solo visible si el plugin está activo
 - 🔍 Detección inteligente por backtrace
-- 🎨 UI moderna con tabs
+- 🎨 UI moderna con tabs nativos de WordPress
 - 🔄 Migración automática desde v1.2.0
 - ⚡ Rendimiento: -50% queries DB (1 get_option en vez de 2)
-- 📊 +438 líneas de código (+112%)
+- 📊 +444 líneas de código (+114%)
 - 🔒 Todas las validaciones de seguridad mantenidas
 
 ### v1.2.0 (2026-01-20)
