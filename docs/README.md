@@ -265,8 +265,8 @@ docs/
 
 ### Pruebas de Compatibilidad
 ```bash
-✅ WordPress 4.1 - 6.8
-✅ PHP 5.6 - 8.4
+✅ WordPress 4.1 - 6.9
+✅ PHP 5.6 - 8.5
 ✅ Multisite instalaciones
 ✅ Desinstalación limpia
 ```
@@ -301,7 +301,7 @@ docs/
 - 🔒 Todas las validaciones de seguridad implementadas
 
 ### v1.0.3 (2025-04-08)
-- Compatible con WordPress 6.8
+- Compatible con WordPress 6.9
 - Documentación mejorada
 
 ### v1.0.2 (2024-11-02)

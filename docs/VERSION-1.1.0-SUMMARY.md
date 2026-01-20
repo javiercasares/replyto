@@ -250,7 +250,7 @@ replyto/
 | Componente | Mínimo | Máximo Probado | Estado |
 |------------|--------|----------------|--------|
 | WordPress | 4.1 | 6.8 | ✅ |
-| PHP | 5.6 | 8.4 | ✅ |
+| PHP | 5.6 | 8.5 | ✅ |
 | MySQL | 5.0+ | 8.0+ | ✅ |
 
 ### Multisite

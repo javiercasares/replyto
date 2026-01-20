@@ -426,8 +426,8 @@ Result: ❌ Bloqueado
 
 | Componente | Mínimo | Máximo Probado | Estado |
 |------------|--------|----------------|--------|
-| WordPress | 4.1 | 6.8 | ✅ |
-| PHP | 5.6 | 8.4 | ✅ |
+| WordPress | 4.1 | 6.9 | ✅ |
+| PHP | 5.6 | 8.5 | ✅ |
 | MySQL | 5.0+ | 8.0+ | ✅ |
 
 **Nota:** debug_backtrace() disponible desde PHP 4.3.0

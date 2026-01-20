@@ -2,7 +2,7 @@
 Contributors: javiercasares
 Tags: email, reply-to, mail, smtp
 Requires at least: 4.1
-Tested up to: 6.8
+Tested up to: 6.9
 Stable tag: 2.0.0
 Requires PHP: 5.6
 Version: 2.0.0
@@ -23,8 +23,8 @@ Extract the contents of the ZIP and upload the contents to the `/wp-content/plug
 
 == Compatibility ==
 
-* WordPress: 4.1 - 6.8
-* PHP: 5.6 - 8.4
+* WordPress: 4.1 - 6.9
+* PHP: 5.6 - 8.5
 
 == Changelog ==
 
@@ -86,8 +86,8 @@ This major release combines multiple enhancements including context-based email 
 
 **Compatibility**
 
-* WordPress: 4.1 - 6.8
-* PHP: 5.6 - 8.4
+* WordPress: 4.1 - 6.9
+* PHP: 5.6 - 8.5
 * 100% backward compatible with v1.0.x
 * Automatic migration on first admin visit after update
 
@@ -100,8 +100,8 @@ This major release combines multiple enhancements including context-based email 
 
 **Compatibility**
 
-* WordPress: 4.1 - 6.8
-* PHP: 5.6 - 8.4
+* WordPress: 4.1 - 6.9
+* PHP: 5.6 - 8.5
 
 **Tests**
 

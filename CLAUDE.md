@@ -8,8 +8,8 @@ Reply-To for WP_Mail is a simple WordPress plugin that allows site administrator
 
 **Key Details:**
 - WordPress plugin (single file)
-- Minimum WordPress: 4.1 | Tested up to: 6.8
-- Minimum PHP: 5.6 | Tested up to: 8.4
+- Minimum WordPress: 4.1 | Tested up to: 6.9
+- Minimum PHP: 5.6 | Tested up to: 8.5
 - Text Domain: `replyto`
 - Translation ready (uses WordPress i18n functions)
 

@@ -33,7 +33,7 @@ if ( is_multisite() ) {
 	global $wpdb;
 
 	// Get all blog IDs.
-	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- $blog_ids is a temporary local variable used only within this uninstall script, not a global variable that persists across the plugin. It's scoped to this file and iteration loop only.
 	$blog_ids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
 
 	// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
