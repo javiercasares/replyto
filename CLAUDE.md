@@ -44,6 +44,22 @@ The entire plugin logic resides in `replyto.php` with three main components:
 
 ## Development Commands
 
+### Deployment
+
+```bash
+# Create production-ready ZIP package
+./bin/deploy.sh 1.1.0
+
+# This will:
+# - Validate version matches in replyto.php and readme.txt
+# - Create clean build directory
+# - Copy only production files
+# - Exclude: vendor/, bin/, docs/, .git/, composer files, etc.
+# - Generate: ../replyto-1.1.0.zip
+```
+
+See [bin/README.md](bin/README.md) for detailed deployment documentation.
+
 ### Code Quality & Standards
 
 ```bash
