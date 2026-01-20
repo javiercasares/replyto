@@ -109,6 +109,7 @@ function wp_mail_replyto_detect_context() {
 	}
 
 	// Get backtrace with minimal overhead.
+	// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace -- Not debug code: debug_backtrace() is essential for production context detection. It analyzes the call stack to identify which WordPress function is sending the email (e.g., retrieve_password, wp_notify_postauthor). This is the core functionality of the plugin, not debugging. The function is optimized with DEBUG_BACKTRACE_IGNORE_ARGS and limited to 20 frames for performance.
 	$backtrace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 20 );
 
 	foreach ( $backtrace as $trace ) {
@@ -414,6 +415,7 @@ function wp_mail_replyto_sanitize_and_log( $input ) {
 
 		// Use error_log for logging (can be configured in wp-config.php).
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Intentional: error_log() is used for security audit logging, not debugging. Only active when WP_DEBUG_LOG is enabled. Records configuration changes with user info and IP for security compliance and troubleshooting. This is a production feature for administrators who enable logging in wp-config.php.
 			error_log(
 				sprintf(
 					'[Reply-To Plugin] Email changed from "%s" to "%s" by user %s (ID: %d) from IP: %s',
@@ -565,6 +567,7 @@ function wp_mail_replyto_sanitize_contexts( $input ) {
 	if ( $old_value !== $sanitized ) {
 		$user = wp_get_current_user();
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Intentional: error_log() is used for security audit logging, not debugging. Only active when WP_DEBUG_LOG is enabled. Records context configuration changes with user info and IP for security compliance and troubleshooting. This is a production feature for administrators who enable logging in wp-config.php.
 			error_log(
 				sprintf(
 					'[Reply-To Plugin] Contexts configuration updated by user %s (ID: %d) from IP: %s',
