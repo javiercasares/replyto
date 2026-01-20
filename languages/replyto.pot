@@ -1,0 +1,242 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Reply-To for WP_Mail\n"
+"POT-Creation-Date: 2026-01-20 18:14+0100\n"
+"PO-Revision-Date: 2026-01-20 18:14+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 3.8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: replyto.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: vendor\n"
+
+#: replyto.php:326
+msgid "WP Mail Reply-To Settings"
+msgstr ""
+
+#: replyto.php:327
+msgid "Reply-To"
+msgstr ""
+
+#: replyto.php:390
+msgid "The email address format is not valid. Please check and try again."
+msgstr ""
+
+#: replyto.php:405
+msgid ""
+"Warning: The email domain does not appear to have valid DNS records. The "
+"email may not work correctly."
+msgstr ""
+
+#: replyto.php:436
+msgid "Reply-To email address updated successfully."
+msgstr ""
+
+#: replyto.php:502 replyto.php:675
+msgid "Default"
+msgstr ""
+
+#: replyto.php:503
+msgid "Authentication"
+msgstr ""
+
+#: replyto.php:504
+msgid "Comments"
+msgstr ""
+
+#: replyto.php:505
+msgid "Users"
+msgstr ""
+
+#: replyto.php:506
+msgid "System"
+msgstr ""
+
+#: replyto.php:511 replyto.php:704
+msgid "WooCommerce"
+msgstr ""
+
+#. translators: %s: context name
+#: replyto.php:534
+#, php-format
+msgid "Invalid email address for %s context."
+msgstr ""
+
+#. translators: %s: context name
+#: replyto.php:547
+#, php-format
+msgid "Name for %s context was truncated to 255 characters."
+msgstr ""
+
+#: replyto.php:584
+msgid "Reply-To configuration updated successfully."
+msgstr ""
+
+#: replyto.php:676
+msgid ""
+"Default Reply-To used for all emails that do not match a specific context. "
+"This is the fallback when other contexts are not configured."
+msgstr ""
+
+#: replyto.php:677
+msgid ""
+"Newsletter confirmations, general notifications, and any emails not covered "
+"by other contexts."
+msgstr ""
+
+#: replyto.php:680
+msgid "Authentication & Security"
+msgstr ""
+
+#: replyto.php:681
+msgid ""
+"Reply-To for password resets, password changes, and email address changes."
+msgstr ""
+
+#: replyto.php:682
+msgid ""
+"Password reset requests, password change confirmations, email address "
+"verifications."
+msgstr ""
+
+#: replyto.php:685
+msgid "Comments & Moderation"
+msgstr ""
+
+#: replyto.php:686
+msgid "Reply-To for comment notifications and moderation alerts."
+msgstr ""
+
+#: replyto.php:687
+msgid "New comment notifications, comment moderation alerts, comment replies."
+msgstr ""
+
+#: replyto.php:690
+msgid "Users & Registration"
+msgstr ""
+
+#: replyto.php:691
+msgid ""
+"Reply-To for new user registrations, role changes, and user management "
+"emails."
+msgstr ""
+
+#: replyto.php:692
+msgid "New user welcome emails, user role changes, account activations."
+msgstr ""
+
+#: replyto.php:695
+msgid "System & Updates"
+msgstr ""
+
+#: replyto.php:696
+msgid ""
+"Reply-To for automatic updates, system alerts, and critical site health "
+"notifications."
+msgstr ""
+
+#: replyto.php:697
+msgid ""
+"WordPress core updates, plugin updates, theme updates, recovery mode, fatal "
+"error notifications."
+msgstr ""
+
+#: replyto.php:705
+msgid ""
+"Reply-To for WooCommerce order notifications, invoices, and customer "
+"communications."
+msgstr ""
+
+#: replyto.php:706
+msgid "Order confirmations, shipping notifications, invoices, customer notes."
+msgstr ""
+
+#: replyto.php:720
+msgid ""
+"Configure different Reply-To addresses based on the type of email being "
+"sent. Each context can have its own email address and display name."
+msgstr ""
+
+#: replyto.php:757
+msgid "Active with email configured"
+msgstr ""
+
+#: replyto.php:758
+msgid "Inactive or no email configured"
+msgstr ""
+
+#: replyto.php:773
+msgid "What this context covers:"
+msgstr ""
+
+#: replyto.php:775
+msgid "Examples:"
+msgstr ""
+
+#: replyto.php:786
+msgid "Enable this context"
+msgstr ""
+
+#: replyto.php:789
+msgid ""
+"When disabled, emails in this context will use the Default Reply-To address."
+msgstr ""
+
+#: replyto.php:799
+msgid "Reply-To Email Address"
+msgstr ""
+
+#: replyto.php:809
+msgid "Enter the email address where replies should be sent."
+msgstr ""
+
+#: replyto.php:816
+msgid "Reply-To Display Name (Optional)"
+msgstr ""
+
+#: replyto.php:826
+msgid ""
+"Optional: Enter a name to display with the email (e.g., \"Support Team\")."
+msgstr ""
+
+#: replyto.php:835
+msgid "Note:"
+msgstr ""
+
+#: replyto.php:836
+msgid ""
+"The Default context is always active and acts as a fallback for all emails."
+msgstr ""
+
+#: replyto.php:861
+msgid "Save Settings"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Reply-To for WP_Mail"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Configure your \"Reply-To:\" for WP_Mail with validation, admin settings, "
+"and context-based routing."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "ROBOTSTXT"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.robotstxt.es/"
+msgstr ""

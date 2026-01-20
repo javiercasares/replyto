@@ -71,16 +71,12 @@ This major release combines multiple enhancements including context-based email 
 * Added explicit header injection prevention with defense-in-depth validation.
 * Implemented strict RFC 5322 email format validation.
 * Enhanced input sanitization with multiple validation layers.
-* Complete security audit performed (Score: 8.5/10).
-* All OWASP Top 10 vulnerabilities addressed.
-* Approved for production use.
 
 **Technical**
 
 * New database structure: Single serialized array instead of multiple options (more efficient).
 * Backward compatible: Legacy options (v1.0.x) still work during migration period.
 * Context detection covers: Password resets, comments, user registration, system updates, WooCommerce emails.
-* Performance: ~0.1-0.2ms overhead for context detection, cached per email.
 * Clean uninstallation: Removes all options including migration flags.
 * Automatic migration from v1.0.x - Your existing settings are preserved in the Default context.
 
@@ -88,8 +84,12 @@ This major release combines multiple enhancements including context-based email 
 
 * WordPress: 4.1 - 6.9
 * PHP: 5.6 - 8.5
-* 100% backward compatible with v1.0.x
-* Automatic migration on first admin visit after update
+
+**Tests**
+
+* PHP Coding Standards: 3.13.4
+* WordPress Coding Standards: 3.3.0
+* Plugin Check (PCP): 1.4.0
 
 = [1.0.3] - 2025-04-08 =
 
