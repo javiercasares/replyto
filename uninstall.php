@@ -7,6 +7,7 @@
  *
  * @package replyto
  * @since 1.1.0
+ * @version 1.3.0 - Added cleanup for contexts configuration.
  */
 
 // If uninstall not called from WordPress, exit.
@@ -17,8 +18,13 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 /**
  * Delete plugin options from single site or main site.
  */
+// Legacy options (v1.0.0 - v1.2.0).
 delete_option( 'wp_mail_replyto_email' );
 delete_option( 'wp_mail_replyto_name' );
+
+// Context-based configuration (v1.3.0+).
+delete_option( 'wp_mail_replyto_contexts' );
+delete_option( 'wp_mail_replyto_migration_v130' );
 
 /**
  * For multisite installations, delete the options from all sites.
@@ -33,8 +39,12 @@ if ( is_multisite() ) {
 	// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 	foreach ( $blog_ids as $blog_id ) {
 		switch_to_blog( $blog_id );
+		// Legacy options.
 		delete_option( 'wp_mail_replyto_email' );
 		delete_option( 'wp_mail_replyto_name' );
+		// v1.3.0+ options.
+		delete_option( 'wp_mail_replyto_contexts' );
+		delete_option( 'wp_mail_replyto_migration_v130' );
 		restore_current_blog();
 	}
 }

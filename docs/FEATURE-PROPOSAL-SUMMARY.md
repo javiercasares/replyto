@@ -247,38 +247,38 @@ System:         (disabled - usa default)
 
 ---
 
-## ❓ Decisiones Pendientes
+## ✅ Decisiones Aprobadas
 
 ### 1. Método de Detección
 
-**Propuesta:** Backtrace
-**Alternativa:** Subject analysis
-**Tu decisión:** _________
+**Decisión:** ✅ Backtrace
+**Razón:** Muy preciso, no depende del contenido del email
 
 ### 2. Contextos en v1.3.0
 
-**Propuesta:** Default, Authentication, Comments, Users (4)
-**Alternativa:** Añadir System (5)
-**Tu decisión:** _________
+**Decisión:** ✅ Incluir todos: Default, Authentication, Comments, Users, System, WooCommerce (6 contextos)
+**Razón:** Funcionalidad completa desde v1.3.0
 
 ### 3. UI Inicial
 
-**Propuesta:** Lista simple con checkboxes
-**Alternativa:** Tabs o Accordions
-**Tu decisión:** _________
+**Decisión:** ✅ Tabs modernos (primer tab = Default)
+**Razón:** UI moderna manteniendo compatibilidad con WordPress
+**Nota:** Header y botón de guardar mantienen estilo estándar de WordPress
 
 ### 4. Contexto System
 
-**Propuesta:** Opcional (habilitado pero vacío por defecto)
-**Alternativa:** Obligatorio
-**Alternativa 2:** No incluir en v1.3.0
-**Tu decisión:** _________
+**Decisión:** ✅ Incluido y opcional
+**Razón:** Dar flexibilidad al usuario
 
 ### 5. Detección WooCommerce
 
-**Propuesta:** Detectar automáticamente si está instalado
-**Alternativa:** Siempre mostrar (deshabilitado si no está)
-**Tu decisión:** _________
+**Decisión:** ✅ Siempre mostrar
+**Razón:** Usuario puede configurarlo aunque no esté instalado todavía
+
+### 6. Campos Obligatorios
+
+**Decisión:** ✅ Ninguno es obligatorio
+**Razón:** Máxima flexibilidad, fallback a Default
 
 ---
 
@@ -309,9 +309,6 @@ System:         (disabled - usa default)
 
 ---
 
-**¿Procedemos con la implementación?**
+**Estado de la Propuesta**
 
-[ ] Sí, con los parámetros propuestos
-[ ] Sí, con estos cambios: ___________
-[ ] No, necesito más información sobre: ___________
-[ ] No, postponer para después de v1.3.0
+✅ **APROBADA** - Implementación en progreso para v1.3.0

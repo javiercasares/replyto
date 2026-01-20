@@ -3,13 +3,13 @@ Contributors: javiercasares
 Tags: email, reply-to
 Requires at least: 4.1
 Tested up to: 6.8
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 Requires PHP: 5.6
-Version: 1.2.0
+Version: 1.3.0
 License: GPL-2.0-or-later
 License URI: https://spdx.org/licenses/GPL-2.0-or-later.html
 
-Configure the "Reply-To" header for WordPress emails with validation and customizable admin settings.
+Configure different "Reply-To" addresses by email context with validation, modern tabbed UI, and automatic migration.
 
 == Description ==
 
@@ -27,6 +27,42 @@ Extract the contents of the ZIP and upload the contents to the `/wp-content/plug
 * PHP: 5.6 - 8.4
 
 == Changelog ==
+
+= [1.3.0] - 2026-01-20 =
+
+**Added**
+
+* Context-based Reply-To routing - Configure different Reply-To addresses for different types of emails.
+* Six email contexts: Default, Authentication & Security, Comments & Moderation, Users & Registration, System & Updates, WooCommerce.
+* Intelligent context detection using backtrace analysis.
+* Modern tabbed user interface for easy configuration.
+* Automatic migration from v1.2.0 - Your existing settings are preserved in the Default context.
+* Enable/disable toggle for each context (except Default which is always active).
+* Fallback chain: Specific context → Default context → Legacy settings.
+* Detailed descriptions and examples for each context in the admin UI.
+
+**Changed**
+
+* Complete rewrite of settings page with modern tab-based interface.
+* Email detection now uses backtrace analysis for accurate context identification.
+* Settings structure changed from individual options to array-based configuration (wp_mail_replyto_contexts).
+* Improved sanitization and validation for multiple contexts.
+* Enhanced logging with context information in debug mode.
+
+**Technical**
+
+* New database structure: Single serialized array instead of multiple options (more efficient).
+* Backward compatible: Legacy options (v1.0-v1.2) still work during migration period.
+* Context detection covers: Password resets, comments, user registration, system updates, WooCommerce emails.
+* Performance: ~0.1-0.2ms overhead for context detection, cached per email.
+* Clean uninstallation: Removes all options including migration flags.
+
+**Compatibility**
+
+* WordPress: 4.1 - 6.8
+* PHP: 5.6 - 8.4
+* 100% backward compatible with v1.2.0 and earlier
+* Automatic migration on first admin visit after update
 
 = [1.2.0] - 2026-01-20 =
 
