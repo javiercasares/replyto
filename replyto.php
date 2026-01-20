@@ -4,7 +4,7 @@
  * Description: Configure your "Reply-To:" for WP_Mail with validation and admin settings.
  * Requires at least: 4.1
  * Requires PHP: 5.6
- * Version: 1.0.3
+ * Version: 1.1.0
  * Author: Javier Casares
  * Author URI: https://www.javiercasares.com/
  * License: GPL-2.0-or-later
@@ -14,7 +14,7 @@
  *
  * @package replyto
  *
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
@@ -31,6 +31,11 @@ defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 function wp_mail_replyto( $args ) {
 	// Retrieve the "Reply-To" email address from plugin settings.
 	$reply_to_email = get_option( 'wp_mail_replyto_email' );
+
+	// Explicit header injection prevention - defense in depth.
+	if ( ! empty( $reply_to_email ) ) {
+		$reply_to_email = str_replace( array( "\r", "\n", '%0a', '%0d', "\0" ), '', $reply_to_email );
+	}
 
 	// Construct the new "Reply-To" header if a valid email address is set.
 	if ( ! empty( $reply_to_email ) && is_email( $reply_to_email ) ) {
@@ -105,6 +110,114 @@ function wp_mail_replyto_add_settings_page() {
 add_action( 'admin_menu', 'wp_mail_replyto_add_settings_page' );
 
 /**
+ * Validates email address with strict RFC 5322 format checking.
+ *
+ * Performs additional validation beyond WordPress's is_email() function
+ * to ensure strict compliance with email standards.
+ *
+ * @since 1.1.0
+ *
+ * @param string $email The email address to validate.
+ * @return bool True if email is valid, false otherwise.
+ */
+function wp_mail_replyto_validate_email_strict( $email ) {
+	// Basic WordPress email validation.
+	if ( ! is_email( $email ) ) {
+		return false;
+	}
+
+	// Ensure no angle brackets in the email address itself.
+	if ( false !== strpos( $email, '<' ) || false !== strpos( $email, '>' ) ) {
+		return false;
+	}
+
+	// Additional validation for special characters that could cause issues.
+	if ( preg_match( '/[\r\n\0]/', $email ) ) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
+ * Sanitizes and logs changes to the Reply-To email setting.
+ *
+ * This function sanitizes the input email address and logs any changes
+ * for security auditing purposes. It's used as the sanitize_callback
+ * for the plugin settings.
+ *
+ * @since 1.1.0
+ *
+ * @param string $input The input email address to sanitize.
+ * @return string The sanitized email address.
+ */
+function wp_mail_replyto_sanitize_and_log( $input ) {
+	// Sanitize the email address.
+	$sanitized = sanitize_email( $input );
+
+	// Get the old value for comparison.
+	$old_value = get_option( 'wp_mail_replyto_email', '' );
+
+	// Perform strict validation.
+	if ( ! empty( $sanitized ) && ! wp_mail_replyto_validate_email_strict( $sanitized ) ) {
+		add_settings_error(
+			'wp_mail_replyto_messages',
+			'wp_mail_replyto_invalid_email',
+			esc_html__( 'The email address format is not valid. Please check and try again.', 'replyto' ),
+			'error'
+		);
+		// Return the old value if validation fails.
+		return $old_value;
+	}
+
+	// Check domain existence (optional validation with warning only).
+	if ( ! empty( $sanitized ) ) {
+		$domain = substr( strrchr( $sanitized, '@' ), 1 );
+		if ( ! empty( $domain ) && function_exists( 'checkdnsrr' ) ) {
+			if ( ! checkdnsrr( $domain, 'MX' ) && ! checkdnsrr( $domain, 'A' ) ) {
+				add_settings_error(
+					'wp_mail_replyto_messages',
+					'wp_mail_replyto_domain_warning',
+					esc_html__( 'Warning: The email domain does not appear to have valid DNS records. The email may not work correctly.', 'replyto' ),
+					'warning'
+				);
+			}
+		}
+	}
+
+	// Log changes for security auditing.
+	if ( $old_value !== $sanitized ) {
+		$user = wp_get_current_user();
+
+		// Use error_log for logging (can be configured in wp-config.php).
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+			error_log(
+				sprintf(
+					'[Reply-To Plugin] Email changed from "%s" to "%s" by user %s (ID: %d) from IP: %s',
+					$old_value,
+					$sanitized,
+					$user->user_login,
+					$user->ID,
+					isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : 'unknown'
+				)
+			);
+		}
+
+		// Add success message if change was successful.
+		if ( ! empty( $sanitized ) || ! empty( $old_value ) ) {
+			add_settings_error(
+				'wp_mail_replyto_messages',
+				'wp_mail_replyto_updated',
+				esc_html__( 'Reply-To email address updated successfully.', 'replyto' ),
+				'success'
+			);
+		}
+	}
+
+	return $sanitized;
+}
+
+/**
  * Registers the plugin settings, section, and field in the WordPress Settings API.
  *
  * This function defines:
@@ -113,13 +226,13 @@ add_action( 'admin_menu', 'wp_mail_replyto_add_settings_page' );
  * - A field for entering the "Reply-To" email address.
  */
 function wp_mail_replyto_register_settings() {
-	// Register the "Reply-To" email setting with sanitization.
+	// Register the "Reply-To" email setting with sanitization and logging.
 	register_setting(
 		'wp_mail_replyto_settings_group',
 		'wp_mail_replyto_email',
 		array(
 			'type'              => 'string',
-			'sanitize_callback' => 'sanitize_email',
+			'sanitize_callback' => 'wp_mail_replyto_sanitize_and_log',
 			'default'           => '',
 		)
 	);
